@@ -69,6 +69,7 @@ namespace App.Controllers
         }
 
 
+        [Authorize(Roles = "Menber")]
         [HttpPut]
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute][Required] int id, ProductUpdateDto product)       
@@ -88,13 +89,13 @@ namespace App.Controllers
         }
 
 
-
         [HttpGet]
         public async Task<IActionResult> Search(string? search)
         {
             return Ok(await _productService.SearchAsync(search));
         }
 
+      
         [HttpGet]
         public async Task<IActionResult> Get([Required] int id)
         {

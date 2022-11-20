@@ -21,7 +21,9 @@ namespace RepositoryLayer.Data
         {
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new BookConfiguration());
-                
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+
+
 
             base.OnModelCreating(modelBuilder);
         }

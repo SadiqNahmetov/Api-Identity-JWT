@@ -2,6 +2,7 @@
 using DomainLayer.Entities;
 using ServiceLayer.DTOs.Account;
 using ServiceLayer.DTOs.Book;
+using ServiceLayer.DTOs.Category;
 using ServiceLayer.DTOs.Product;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,13 @@ namespace ServiceLayer.Mappings
             CreateMap<Book, BookListDto>();
             CreateMap<BookUpdateDto, Book>().ReverseMap();
 
+            CreateMap<CategoryCreateDto, Category>();
+            CreateMap<Category, CategoryListDto>();
+            CreateMap<CategoryUpdateDto, Category>().ReverseMap();
+
             CreateMap<RegisterDto, AppUser>().ReverseMap();
 
+            
         }
     }
 }

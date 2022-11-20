@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.DTOs.Book;
-using ServiceLayer.DTOs.Product;
+using ServiceLayer.DTOs.Category;
 using ServiceLayer.Services;
 using ServiceLayer.Services.Interfaces;
 using System.ComponentModel.DataAnnotations;
@@ -9,36 +9,28 @@ using System.Data;
 
 namespace App.Controllers
 {
-    public class BookController : AppController
+    public class CategoryController : AppController
     {
-        private readonly IBookService _bookService;
-        public BookController(IBookService bookService)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _bookService = bookService;
+                _categoryService= categoryService;
         }
+
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] BookCreateDto book)
+        public async Task<IActionResult> Create([FromBody] CategoryCreateDto category)
         {
-            await _bookService.CreateAsync(book);
+            await _categoryService.CreateAsync(category);
             return Ok();
         }
 
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _bookService.GetAllAsync());
-        }
-
-       
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await _bookService.DeleteAsync(id);
+                await _categoryService.DeleteAsync(id);
 
                 return Ok();
             }
@@ -50,14 +42,12 @@ namespace App.Controllers
 
         }
 
-
-        [Authorize(Roles = "Menber")]
         [HttpPost]
         public async Task<IActionResult> SoftDelete([Required] int id)
         {
             try
             {
-                await _bookService.SoftDeleteAsync(id);
+                await _categoryService.SoftDeleteAsync(id);
 
                 return Ok();
             }
@@ -69,37 +59,42 @@ namespace App.Controllers
 
         }
 
-
-        [HttpPut]
-        [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute][Required] int id, BookUpdateDto book)
-        {
-            try
-            {
-                await _bookService.UpdateAsync(id, book);
-
-                return Ok();
-            }
-            catch (NullReferenceException)
-            {
-
-                return NotFound();
-            }
-
-        }
-
-       
         [HttpGet]
-        public async Task<IActionResult> Search(string? search)
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _bookService.SearchAsync(search));
+            return Ok(await _categoryService.GetAllAsync());
         }
 
-      
         [HttpGet]
         public async Task<IActionResult> Get([Required] int id)
         {
-            return Ok(await _bookService.GetById(id));
+            return Ok(await _categoryService.GetById(id));
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute][Required] int id, CategoryUpdateDto category)
+        {
+            try
+            {
+                await _categoryService.UpdateAsync(id, category);
+
+                return Ok();
+            }
+            catch (NullReferenceException)
+            {
+
+                return NotFound();
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string? search)
+        {
+            return Ok(await _categoryService.SearchAsync(search));
+        }
+
+
     }
 }
